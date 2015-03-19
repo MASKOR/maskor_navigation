@@ -7,11 +7,19 @@ set(PROJECT_NAME sbpl_lattice_planner)
 ##############################################################################
 
 find_package(catkin REQUIRED COMPONENTS
-  roscpp costmap_2d nav_core pluginlib geometry_msgs nav_msgs message_generation)
+  roscpp 
+  costmap_2d 
+  nav_core 
+  pluginlib 
+  geometry_msgs 
+  nav_msgs 
+  message_generation
+  sbpl
+)
 
 find_package(PkgConfig REQUIRED)
 
-find_package(sbpl REQUIRED)
+#find_package(sbpl REQUIRED)
 
 #find_package(boost REQUIRED)
 
