@@ -50,7 +50,7 @@ catkin_package(
 ##############################################################################
 
 add_library(${PROJECT_NAME} SHARED src/sbpl_lattice_planner.cpp)
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} sbpl)
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_generated_messages_cpp)
 
 ##############################################################################
