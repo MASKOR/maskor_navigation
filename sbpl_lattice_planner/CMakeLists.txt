@@ -6,6 +6,8 @@ project(sbpl_lattice_planner)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  message_generation
+  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -42,11 +44,10 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+   FILES
+   SBPLLatticePlannerStats.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -63,10 +64,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
+generate_messages(
+   DEPENDENCIES
+   geometry_msgs
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -78,8 +79,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES sbpl_lattice_planner
+   INCLUDE_DIRS include
+   LIBRARIES sbpl_lattice_planner
 #  CATKIN_DEPENDS roscpp
 #  DEPENDS system_lib
 )
@@ -90,15 +91,14 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
+include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
-# add_library(sbpl_lattice_planner
-#   src/${PROJECT_NAME}/sbpl_lattice_planner.cpp
-# )
+add_library(sbpl_lattice_planner src/sbpl_lattice_planner.cpp
+)
 
 ## Declare a cpp executable
 # add_executable(sbpl_lattice_planner_node src/sbpl_lattice_planner_node.cpp)
@@ -108,9 +108,9 @@ include_directories(
 # add_dependencies(sbpl_lattice_planner_node sbpl_lattice_planner_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(sbpl_lattice_planner_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(sbpl_lattice_planner
+   ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
