@@ -23,7 +23,6 @@ install:
   # Create workspace
   - mkdir -p ~/ros/ws_$REPOSITORY_NAME/src
   - cd ~/ros/ws_$REPOSITORY_NAME/src
-  - git clone https://github.com/mavlink/mavros --depth=1
   - wstool init .
   - ln -s $CI_SOURCE_PATH . # Link the repo we are testing to the new workspace
   - cd ../
