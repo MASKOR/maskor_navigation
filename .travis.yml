@@ -35,7 +35,7 @@ before_script:
   - rospack profile
 script:
   - cd ~/ros/ws_$REPOSITORY_NAME
-  - catkin_make -j4
+  - catkin_make
   #- catkin_make install
   # - rm -fr devel src build; source install/setup.bash
 
