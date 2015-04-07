@@ -79,8 +79,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES sbpl
+  INCLUDE_DIRS include
+  LIBRARIES sbpl
 #  CATKIN_DEPENDS roscpp
 #  DEPENDS system_lib
 )
@@ -94,6 +94,7 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  include
 )
 
 add_library(sbpl SHARED
