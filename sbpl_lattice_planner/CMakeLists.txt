@@ -15,7 +15,7 @@ find_package(sbpl REQUIRED)
 
 #find_package(boost REQUIRED)
 
-include_directories(include ${catkin_INCLUDE_DIRS})
+include_directories(include ${catkin_INCLUDE_DIRS} ${sbpl_INCLUDE_DIRS})
 
 ##############################################################################
 # Generate messages
@@ -32,8 +32,8 @@ generate_messages(DEPENDENCIES geometry_msgs)
 # Since sbpl is found through pkg-config, we need to manually add its
 # libraries and include directories into catkin_package
 catkin_package(
-  INCLUDE_DIRS include ${sbpl_lattice_planner_INCLUDE_DIRS}
-  LIBRARIES ${sbpl_lattice_planner_LIBRARIES}
+  INCLUDE_DIRS include ${sbpl_lattice_planner_INCLUDE_DIRS} ${sbpl_INCLUDE_DIRS}
+  LIBRARIES ${sbpl_lattice_planner_LIBRARIES} ${sbpl_LIBRARIES}
 #  CATKIN_DEPENDS ${THIS_PACKAGE_ROS_DEPS} message_runtime
 #  DEPENDS
 )
@@ -43,7 +43,7 @@ catkin_package(
 ##############################################################################
 
 add_library(${PROJECT_NAME} SHARED src/sbpl_lattice_planner.cpp)
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} sbpl)
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${sbpl_LIBRARIES})
 add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_generated_messages_cpp)
 
 ##############################################################################
