@@ -62,10 +62,10 @@ namespace pose_follower {
 
     node_private.param("samples", samples_, 100);
 
-    node_private.param("max_vel_lin", max_vel_lin_, 0.2);
+    node_private.param("max_vel_lin", max_vel_lin_, 0.3);
     node_private.param("max_vel_th", max_vel_th_, 1.0);
 
-    node_private.param("min_vel_lin", min_vel_lin_, -0.1);
+    node_private.param("min_vel_lin", min_vel_lin_, 0.3);
     node_private.param("min_vel_th", min_vel_th_, -0.3);
     node_private.param("min_in_place_vel_th", min_in_place_vel_th_, 0.0);
     node_private.param("in_place_trans_vel", in_place_trans_vel_, 0.0);
@@ -158,6 +158,9 @@ namespace pose_follower {
 //        test_vel.linear.y = limit_vel.linear.y * scaling_factor;
         test_vel.linear.y = 0;//limit_vel.linear.y * scaling_factor;
         test_vel.angular.z = limit_vel.angular.z * scaling_factor;
+        if (test_vel.linear.x < 0)
+           test_vel.angular.z = -test_vel.angular.z;
+
         test_vel = limitTwist(test_vel);
         if(collision_planner_.checkTrajectory(test_vel.linear.x, test_vel.linear.y, test_vel.angular.z, false)){
           legal_traj = true;
