@@ -34,7 +34,7 @@ generate_messages(DEPENDENCIES geometry_msgs)
 catkin_package(
   INCLUDE_DIRS include ${sbpl_lattice_planner_INCLUDE_DIRS} ${sbpl_INCLUDE_DIRS}
   LIBRARIES ${sbpl_lattice_planner_LIBRARIES} ${sbpl_LIBRARIES}
-#  CATKIN_DEPENDS ${THIS_PACKAGE_ROS_DEPS} message_runtime
+  CATKIN_DEPENDS ${THIS_PACKAGE_ROS_DEPS} message_runtime geometry_msgs
 #  DEPENDS
 )
 
@@ -44,7 +44,7 @@ catkin_package(
 
 add_library(${PROJECT_NAME} SHARED src/sbpl_lattice_planner.cpp)
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${sbpl_LIBRARIES})
-add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_generated_messages_cpp)
+add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_generated_messages_cpp ${PROJECT_NAME}_gencpp)
 
 ##############################################################################
 # Install
