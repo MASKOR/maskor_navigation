@@ -7,15 +7,13 @@ set(PROJECT_NAME sbpl_lattice_planner)
 ##############################################################################
 
 find_package(catkin REQUIRED COMPONENTS
-  roscpp costmap_2d nav_core pluginlib geometry_msgs nav_msgs message_generation)
+  roscpp costmap_2d nav_core pluginlib geometry_msgs nav_msgs message_generation sbpl)
 
 find_package(PkgConfig REQUIRED)
 
-find_package(sbpl REQUIRED)
+#find_package(sbpl REQUIRED)
 
-#find_package(boost REQUIRED)
-
-include_directories(include ${catkin_INCLUDE_DIRS} ${sbpl_INCLUDE_DIRS})
+include_directories(include ${catkin_INCLUDE_DIRS})
 
 ##############################################################################
 # Generate messages
@@ -32,8 +30,9 @@ generate_messages(DEPENDENCIES geometry_msgs)
 # Since sbpl is found through pkg-config, we need to manually add its
 # libraries and include directories into catkin_package
 catkin_package(
-  INCLUDE_DIRS include ${sbpl_lattice_planner_INCLUDE_DIRS} ${sbpl_INCLUDE_DIRS}
-  LIBRARIES ${sbpl_lattice_planner_LIBRARIES} ${sbpl_LIBRARIES}
+#  INCLUDE_DIRS include ${sbpl_lattice_planner_INCLUDE_DIRS} ${sbpl_INCLUDE_DIRS}
+  INCLUDE_DIRS include
+  LIBRARIES ${sbpl_lattice_planner_LIBRARIES}
   CATKIN_DEPENDS ${THIS_PACKAGE_ROS_DEPS} message_runtime geometry_msgs
 #  DEPENDS
 )
@@ -43,7 +42,7 @@ catkin_package(
 ##############################################################################
 
 add_library(${PROJECT_NAME} SHARED src/sbpl_lattice_planner.cpp)
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${sbpl_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})
 add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_generated_messages_cpp ${PROJECT_NAME}_gencpp)
 
 ##############################################################################
