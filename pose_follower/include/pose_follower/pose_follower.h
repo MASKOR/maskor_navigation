@@ -76,6 +76,11 @@ namespace pose_follower {
       costmap_2d::Costmap2DROS* costmap_ros_;
       ros::Publisher vel_pub_;
       double K_trans_, K_rot_, tolerance_trans_, tolerance_rot_;
+
+      // nlimpert - 2015-04-10:
+      int lookahead_count_;
+      double lookahead_weight_;
+
       double tolerance_timeout_;
       double max_vel_lin_, max_vel_th_;
       double min_vel_lin_, min_vel_th_;

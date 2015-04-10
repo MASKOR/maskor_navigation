@@ -73,6 +73,9 @@ namespace pose_follower {
     node_private.param("trans_stopped_velocity", trans_stopped_velocity_, 1e-4);
     node_private.param("rot_stopped_velocity", rot_stopped_velocity_, 1e-4);
 
+    node_private.param("lookahead_count", lookahead_count_, 1);
+    node_private.param("lookahead_weight", lookahead_weight_, 0.2);
+
     ros::NodeHandle node;
     odom_sub_ = node.subscribe<nav_msgs::Odometry>("odom", 1, boost::bind(&PoseFollower::odomCallback, this, _1));
     vel_pub_ = node.advertise<geometry_msgs::Twist>("cmd_vel", 10);
@@ -131,13 +134,34 @@ namespace pose_follower {
 
     //we want to compute a velocity command based on our current waypoint
     tf::Stamped<tf::Pose> target_pose;
-    tf::poseStampedMsgToTF(global_plan_[current_waypoint_], target_pose);
+
+    tf::Stamped<tf::Pose> cur_pose_of_waypoints;
+    tf::Stamped<tf::Pose> cur_pose_of_waypoints_next;
+    tf::poseStampedMsgToTF(global_plan_[current_waypoint_], cur_pose_of_waypoints);
+
+    geometry_msgs::Twist diff = diff2D(cur_pose_of_waypoints, robot_pose);
+    geometry_msgs::Twist diff_between_waypoint_and_next_waypoint;
+
+    for (int iPose = current_waypoint_ + 1; iPose < current_waypoint_ + lookahead_count_ && iPose + 1 < global_plan_.size(); iPose++)
+    {
+        tf::poseStampedMsgToTF(global_plan_[iPose], cur_pose_of_waypoints);
+        tf::poseStampedMsgToTF(global_plan_[iPose + 1], cur_pose_of_waypoints_next);
+        diff_between_waypoint_and_next_waypoint = diff2D(cur_pose_of_waypoints, cur_pose_of_waypoints_next);
+
+//        diff.linear.x += diff_between_waypoint_and_next_waypoint.linear.x * lookahead_weight_;
+//        diff.linear.y += diff_between_waypoint_and_next_waypoint.linear.y * lookahead_weight_;
+//        diff_combined.linear.z += diff_between_waypoint_and_next_waypoint.linear.z * lookahead_weight_;
+//        diff_combined.angular.x += diff_between_waypoint_and_next_waypoint.angular.x * lookahead_weight_;
+//        diff_combined.angular.y += diff_between_waypoint_and_next_waypoint.angular.y * lookahead_weight_;
+        diff.angular.z += diff_between_waypoint_and_next_waypoint.angular.z * lookahead_weight_;
+    }
 
     ROS_DEBUG("PoseFollower: current robot pose %f %f ==> %f", robot_pose.getOrigin().x(), robot_pose.getOrigin().y(), tf::getYaw(robot_pose.getRotation()));
     ROS_DEBUG("PoseFollower: target robot pose %f %f ==> %f", target_pose.getOrigin().x(), target_pose.getOrigin().y(), tf::getYaw(target_pose.getRotation()));
 
     //get the difference between the two poses
-    geometry_msgs::Twist diff = diff2D(target_pose, robot_pose);
+//    geometry_msgs::Twist diff = diff2D(target_pose, robot_pose);
+    //    ROS_DEBUG("PoseFollower: diff %f %f ==> %f", diff.linear.x, diff.linear.y, diff.angular.z);
     ROS_DEBUG("PoseFollower: diff %f %f ==> %f", diff.linear.x, diff.linear.y, diff.angular.z);
 
     geometry_msgs::Twist limit_vel = limitTwist(diff);
