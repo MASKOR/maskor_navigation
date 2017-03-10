@@ -1,0 +1,29 @@
+
+#---standard pioneer footprint---
+#---(in meters)---
+footprint: [[-0.5, -0.33], [-0.5, 0.33], [0.5, 0.33], [0.5, -0.33]]
+
+transform_tolerance: 0.2
+map_type: costmap
+
+obstacle_layer:
+ enabled: true
+ obstacle_range: 3.0
+ raytrace_range: 3.5
+ inflation_radius: 0.4
+ track_unknown_space: false
+ combination_method: 1
+
+ observation_sources: scan_top scan_bot 
+ scan_top: {sensor_frame: laser_link_top, data_type: LaserScan, topic: /scan_top, marking: true, clearing: true, expected_update_rate: 0.7, observation_persistence: 0.0}
+ scan_bot: {sensor_frame: laser_link_bot, data_type: LaserScan, topic: /scan_bot_filtered, marking: true, clearing: true, expected_update_rate: 0.7, observation_persistence: 0.0}
+
+
+inflation_layer:
+  enabled:              true
+  cost_scaling_factor:  10.0  # exponential rate at which the obstacle cost drops off (default: 10)
+  inflation_radius:     0.5  # max. distance from an obstacle at which costs are incurred for planning paths.
+
+#static_layer:
+#  enabled:              false
+#  map_topic:            "/map"
