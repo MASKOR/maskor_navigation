@@ -14,7 +14,8 @@ obstacle_layer:
  track_unknown_space: false
  combination_method: 1
 
- observation_sources: scan_top scan_bot 
+# observation_sources: scan_top scan_bot 
+ observation_sources: scan_bot 
  scan_top: {sensor_frame: laser_link_top, data_type: LaserScan, topic: /scan_top, marking: true, clearing: true, expected_update_rate: 0.7, observation_persistence: 0.0}
  scan_bot: {sensor_frame: laser_link_bot, data_type: LaserScan, topic: /scan_bot_filtered, marking: true, clearing: true, expected_update_rate: 0.7, observation_persistence: 0.0}
 
