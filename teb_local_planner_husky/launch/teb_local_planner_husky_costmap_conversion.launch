@@ -1,8 +1,5 @@
 <launch>
 
-        <!--  ************** Global Parameters ***************  -->
-        <!--param name="/use_sim_time" value="true"/-->
-
         <!--  ************** Navigation ***************  -->
 	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
   	  	<rosparam file="$(find teb_local_planner_husky)/cfg/costmap_common_params.yaml" command="load" ns="global_costmap" />
@@ -20,7 +17,8 @@
 		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
 		<param name="controller_frequency" value="15.0" />
 		<param name="controller_patience" value="15.0" />
-                <remap from="cmd_vel" to="autonomy/cmd_vel" />
+
+                <remap from="cmd_vel" to="autonomy_control/cmd_vel"/>
 	</node>
 
 </launch>

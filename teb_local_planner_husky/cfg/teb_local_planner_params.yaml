@@ -1,6 +1,6 @@
 TebLocalPlannerROS:
 
- odom_topic: /odometry/filtered_map
+ odom_topic: odom
     
  # Trajectory
   
@@ -13,23 +13,24 @@ TebLocalPlannerROS:
     
  # Robot
          
- max_vel_x: 0.5
+ max_vel_x: 0.8
  max_vel_x_backwards: 0.5
- max_vel_theta: 2.0 # the angular velocity is also bounded by min_turning_radius in case of a carlike robot (r = v / omega)
- acc_lim_x: 0.5
- acc_lim_theta: 0.5
+ max_vel_theta: 0.5 # the angular velocity is also bounded by min_turning_radius in case of a carlike robot (r = v / omega)
+ acc_lim_x: 1.0
+ acc_lim_theta: 0.1
 
  # ********************** Carlike robot parameters ********************
- min_turning_radius: 1.0        # Min turning radius of the carlike robot (compute value using a model or adjust with rqt_reconfigure manually)
+ min_turning_radius: 2.0        # Min turning radius of the carlike robot (compute value using a model or adjust with rqt_reconfigure manually)
  wheelbase: 0.0                 # Wheelbase of our robot 
  cmd_angle_instead_rotvel: False # stage simulator takes the angle instead of the rotvel as input (twist message)
  # ********************************************************************
 
  footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
-   type: "circular"
-   radius: 0.4 # for type "circular"
-   line_start: [-0.3, 0.0] # for type "line"
-   line_end: [0.3, 0.0] # for type "line"
+#   type: "circular"
+   type: "line"
+   radius: 0.5 # for type "circular"
+   line_start: [-0.2, 0.0] # for type "line"
+   line_end: [0.2, 0.0] # for type "line"
    front_offset: 0.0 # for type "two_circles"
    front_radius: 0.4 # for type "two_circles"
    rear_offset: 0.86 # for type "two_circles"
@@ -44,7 +45,7 @@ TebLocalPlannerROS:
     
  # Obstacles
     
- min_obstacle_dist: 0.2 # This value must also include our robot's expansion, since footprint_model is set to "line".
+ min_obstacle_dist: 0.6 # This value must also include our robot's expansion, since footprint_model is set to "line".
  include_costmap_obstacles: False
  costmap_obstacles_behind_robot_dist: 1.0
  obstacle_poses_affected: 150
